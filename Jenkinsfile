@@ -17,6 +17,7 @@ pipeline {
 	stage('Linting') {
 		steps {
 			sh "cd risk-ident"
+			sh "echo 'pwd'"
 			sh "npm install"
 			sh "echo 'App Linting'"
 			sh "npm run lint"
