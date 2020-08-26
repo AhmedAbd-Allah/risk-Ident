@@ -4,6 +4,9 @@ def dockerpath = "ahmedabdallah7/risk-ident"
 
 pipeline {
   agent any
+  triggers {
+    githubPush()
+  }
   stages {
 	stage('Generate Build ID'){
 		steps {
