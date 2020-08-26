@@ -38,10 +38,6 @@ pipeline {
 		}
 
 
-		// steps {
-		// 	sh "echo 'Building Docker Image'"
-		// 	sh "docker build --tag=`echo $buildID` ."
-		// }
 	}
 
 
@@ -55,9 +51,7 @@ pipeline {
 				}
 			}
  
-			// sh "docker login"
-			// sh "docker tag `echo $buildID` $dockerpath"
-			// sh "docker push $dockerpath"
+		
 		}
 	}
 
