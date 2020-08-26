@@ -1,8 +1,11 @@
 def buildID = ""
 def dockerpath = "ahmedabdallah7/risk-ident"
-
+def dockerImage
 
 pipeline {
+  environment {
+	dockerhubCredentials = 'ahmedabdallah7'
+  }
   agent any
   triggers {
     githubPush()
@@ -19,17 +22,26 @@ pipeline {
 	}
 	stage('Linting') {
 		steps {
-			sh "pwd"
 			sh "npm install"
 			sh "echo 'App Linting'"
 			sh "npm run lint"
 		}
 	}
-	stage('Building Docker Image') {
+	stage('Building Docker Image and push to Dockerhub') {
+
+
 		steps {
-			sh "echo 'Building Docker Image'"
-			sh "docker build --tag=`echo $buildID` ."
+			script {
+				sh "echo 'Building Docker Image'"
+				dockerImage = docker.build("$dockerpath:$buildID")
+			}
 		}
+
+
+		// steps {
+		// 	sh "echo 'Building Docker Image'"
+		// 	sh "docker build --tag=`echo $buildID` ."
+		// }
 	}
 
 
@@ -37,9 +49,15 @@ pipeline {
 		steps {
 			sh "echo 'Pushing Docker Image to Dockerhub'"
 			sh "echo 'Docker Image ID: $buildID'"
-			sh "docker login"
-			sh "docker tag `echo $buildID` $dockerpath"
-			sh "docker push $dockerpath"
+			script {
+				docker.withRegistry('', dockerhubCredentials) {
+					dockerImage.push()
+				}
+			}
+ 
+			// sh "docker login"
+			// sh "docker tag `echo $buildID` $dockerpath"
+			// sh "docker push $dockerpath"
 		}
 	}
 
