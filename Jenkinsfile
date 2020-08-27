@@ -33,7 +33,7 @@ pipeline {
 		steps {
 			script {
 				sh "echo 'Building Docker Image'"
-				dockerImage =sh(script: 'docker build --tag=`echo $buildID` .', returnStdout: true)
+				sh "docker build --tag=`echo $buildID` ."
 			}
 		}
 
