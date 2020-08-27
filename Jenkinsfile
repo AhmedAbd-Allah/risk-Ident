@@ -22,7 +22,6 @@ pipeline {
 	}
 	stage('Linting') {
 		steps {
-			sh "npm install"
 			sh "echo 'App Linting'"
 			sh "npm run lint"
 		}
