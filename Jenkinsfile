@@ -22,7 +22,7 @@ pipeline {
 	}
 	stage('Linting') {
 		steps {
-	
+			sh "npm install"
 			sh "echo 'App Linting'"
 			sh "npm run lint"
 		}
@@ -40,7 +40,7 @@ pipeline {
 
 	}
 
-
+	
 	stage('Push Image to Dockerhub') {
 		steps {
 			sh "echo 'Pushing Docker Image to Dockerhub'"
