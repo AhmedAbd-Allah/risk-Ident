@@ -39,7 +39,6 @@ pipeline {
 
 
 	}
-
 	stage('Push Image to Dockerhub') {
 		steps {
 			sh "echo 'Pushing Docker Image to Dockerhub'"
