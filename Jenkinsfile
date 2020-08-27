@@ -27,13 +27,13 @@ pipeline {
 			sh "npm run lint"
 		}
 	}
-	stage('Building Docker Image and push to Dockerhub') {
+	stage('Building Docker Image') {
 
 
 		steps {
 			script {
 				sh "echo 'Building Docker Image'"
-				dockerImage = docker.build("$dockerpath:$buildID", ".")
+				dockerImage =sh(script: 'docker build --tag=`echo $buildID` .', returnStdout: true)
 			}
 		}
 
