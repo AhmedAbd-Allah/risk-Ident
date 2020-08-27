@@ -45,12 +45,10 @@ pipeline {
 		steps {
 			sh "echo 'Pushing Docker Image to Dockerhub'"
 			sh "echo 'Docker Image ID: $buildID'"
-			script {
-				docker.withRegistry('', dockerhubCredentials) {
-					dockerImage.push()
-				}
-			}
- 
+			sh	"docker login"
+			sh "docker tag $buildID $dockerpath"
+			sh "docker push $dockerpath"
+		
 		
 		}
 	}
