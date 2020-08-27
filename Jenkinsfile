@@ -33,14 +33,14 @@ pipeline {
 		steps {
 			script {
 				sh "echo 'Building Docker Image'"
-				dockerImage = docker.build("$dockerpath:$buildID")
+				dockerImage = docker.build("$dockerpath:$buildID", ".")
 			}
 		}
 
 
 	}
 
-	
+
 	stage('Push Image to Dockerhub') {
 		steps {
 			sh "echo 'Pushing Docker Image to Dockerhub'"
