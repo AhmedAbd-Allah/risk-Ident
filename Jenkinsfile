@@ -58,12 +58,16 @@ pipeline {
 		}
 	}
 
-	stage('EKS Cluster Connection') {
-		steps {
-			sh "echo 'Get EKS kubeconfig'"
-			sh "aws eks --region us-west-2 update-kubeconfig --name risk-ident-ekscluster"
-		}
-	}
+	stage('Deploy Docker Image to EKS') {
+      steps {
+        withAWS(credentials: 'aws-cred', region: 'us-west-2') {
+          sh 'aws iam get-user'
+          echo 'Deploying....'
+         
+        }
+
+      }
+    }
 
 
   }
