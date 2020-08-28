@@ -3,9 +3,6 @@ def dockerpath = "ahmedabdallah7/risk-ident"
 def dockerImage
 
 pipeline {
-  environment {
-	dockerhubCredentials = 'ahmedabdallah7'
-  }
   agent any
   triggers {
     githubPush()
@@ -45,7 +42,9 @@ pipeline {
 		steps {
 			sh "echo 'Pushing Docker Image to Dockerhub'"
 			sh "echo 'Docker Image ID: $buildID'"
-			sh	"docker login"
+			withCredentials([string(credentialsId: 'dockerCred', variable: 'dockerhubpwd')]) {
+				sh	"docker login -u ahmedabdallah7 -p ${dockerhubpwd}"
+			}
 			sh "docker tag $buildID $dockerpath"
 			sh "docker push $dockerpath"
 		
