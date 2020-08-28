@@ -63,6 +63,11 @@ pipeline {
         withAWS(credentials: 'aws-cred', region: 'us-west-2') {
           sh 'aws iam get-user'
           echo 'Deploying....'
+            sh '''
+               aws eks --region us-west-2 update-kubeconfig --name risk-ident-ekscluster
+               kubectl get nodes
+          '''
+          
          
         }
 
