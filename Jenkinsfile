@@ -51,8 +51,8 @@ pipeline {
 			withCredentials([usernamePassword(credentialsId: 'dockerCred', passwordVariable: 'dockerhubPass', usernameVariable: "dockerhubUser")]) {
 				sh	"docker login -u ${dockerhubUser} -p ${dockerhubPass}"
 			}
-			sh "docker tag $buildID $dockerpath:$buildID"
-			sh "docker push $dockerpath"
+			sh "docker tag `echo $buildID` `echo $dockerpath`: `echo $buildID`"
+			sh "docker push `echo $dockerpath`"
 		
 		
 		}
