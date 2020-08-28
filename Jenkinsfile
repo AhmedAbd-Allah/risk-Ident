@@ -48,8 +48,8 @@ pipeline {
 		steps {
 			sh "echo 'Pushing Docker Image to Dockerhub'"
 			sh "echo 'Docker Image ID: $buildID'"
-			withCredentials([string(credentialsId: 'dockerCred', variable: 'dockerhubpwd')]) {
-				sh	"docker login -u ahmedabdallah7 -p ${dockerhubpwd}"
+			withCredentials([usernamePassword(credentialsId: 'dockerCred', passwordVariable: 'dockerhubPass', usernameVariable: "dockerhubUser")]) {
+				sh	"docker login -u ${dockerhubUser} -p ${dockerhubPass}"
 			}
 			sh "docker tag $buildID $dockerpath"
 			sh "docker push $dockerpath"
