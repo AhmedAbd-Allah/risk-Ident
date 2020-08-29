@@ -63,7 +63,6 @@ pipeline {
         withAWS(credentials: 'aws-cred', region: 'us-west-2') {
 
 	      sh "echo 'Get EKS kubeconfig'"
-		  sh "aws eks --region us-west-2 update-kubeconfig --name risk-ident-ekscluster"
  		  sh "kubectl get nodes"
 		
 
