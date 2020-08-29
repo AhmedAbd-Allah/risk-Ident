@@ -63,6 +63,7 @@ pipeline {
         withAWS(credentials: 'aws-cred', region: 'us-west-2') {
 
 	      sh "echo 'Get EKS kubeconfig'"
+		  sh "aws sts get-caller-identity"
  		  sh "kubectl get nodes"
 		
 
