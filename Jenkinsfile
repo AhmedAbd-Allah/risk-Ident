@@ -64,6 +64,8 @@ pipeline {
 
 	      sh "echo 'Get EKS kubeconfig'"
 		  sh "aws eks --region us-west-2 update-kubeconfig --name risk-ident-ekscluster"
+ 		  sh "kubectl get nodes"
+		
 
 
 
