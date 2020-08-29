@@ -63,8 +63,9 @@ pipeline {
         withAWS(credentials: 'aws-cred', region: 'us-west-2') {
 
 	      sh "echo 'Get EKS kubeconfig'"
-		  sh "aws sts get-caller-identity"
- 		  sh "kubectl get nodes"
+		  sh "aws eks --region us-west-2 update-kubeconfig --name risk-ident-ekscluster --role-arn arn:aws:iam::451950035695:user/udacity1"
+ 		  sh "aws sts get-caller-identity"
+		  sh "kubectl get nodes"
 		
 
 
