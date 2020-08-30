@@ -63,7 +63,7 @@ pipeline {
         withAWS(credentials: 'aws-cred', region: 'us-west-2') {
 
 	    sh "echo 'Get EKS kubeconfig'"
-		  sh "aws eks --region us-west-2 update-kubeconfig --name risk-ident-ekscluster --role-arn arn:aws:iam::451950035695:role/risk-ident-EKSClusterRole-9YQNVSV9QAN4"
+		  sh "aws eks --region us-west-2 update-kubeconfig --name risk-ident-ekscluster"
  		  sh "kubectl get nodes"
 		  sh "kubectl -n risk-ident set image deployments/risk-ident  risk-ident=`echo $dockerpath`:`echo $BUILD_NUMBER`"
 		
