@@ -1,0 +1,46 @@
+apiVersion: risk-ident/v1
+kind: Deployment
+metadata:
+  name: risk-ident
+  labels:
+    app: risk-ident
+  namespace: default
+spec:
+  progressDeadlineSeconds: 1200
+  replicas: 3
+  selector:
+    matchLabels:
+      app: risk-ident
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: risk-ident
+    spec:
+      containers:
+        - image: ahmedabdallah7/risk-ident
+          imagePullPolicy: Always
+          name: risk-ident
+          ports:
+            - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: risk-ident-lb-service
+  labels:
+    app: risk-ident
+spec:
+  type: LoadBalancer
+  selector:
+    app: risk-ident
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30000
+      protocol: TCP

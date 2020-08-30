@@ -65,8 +65,14 @@ pipeline {
 	    sh "echo 'Get EKS kubeconfig'"
 		  sh "aws eks --region us-west-2 update-kubeconfig --name risk-ident-ekscluster"
  		  sh "kubectl get nodes"
-		  sh "kubectl set image deployments/risk-ident  risk-ident=`echo $dockerpath`:`echo $BUILD_NUMBER`"
-		
+			sh "kubectl apply -f deployment.yml"
+			sh "sleep 2m"
+			sh "kubectl set image deployments/risk-ident risk-ident=`echo $dockerpath`:`echo $buildID`"
+			sh "kubectl rollout status deployment.v1.risk-ident/risk-ident"
+			sh "kubectl get deployment"
+			sh "kubectl get rs"
+			sh "kubectl get pods"
+			sh "kubectl get svc"		
 
 
 
