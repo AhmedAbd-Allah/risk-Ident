@@ -36,7 +36,7 @@ metadata:
   labels:
     app: risk-ident
 spec:
-  type: nodePort
+  type: NodePort
   selector:
     app: risk-ident
   ports:
