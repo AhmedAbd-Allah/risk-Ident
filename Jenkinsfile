@@ -77,7 +77,9 @@ pipeline {
 			sh "sleep 2m"
 			sh "kubectl set image deployments/risk-ident risk-ident=`echo $dockerpath`:`echo $buildID`"
 			sh "kubectl get deployment"
-			sh "kubectl get svc"		
+			sh "kubectl get pods"
+			sh "kubectl rollout status deployments/risk-ident"
+			sh "kubectl get svc"
 
 
 
