@@ -58,6 +58,12 @@ pipeline {
 		}
 	}
 
+	stage('Remove Unused docker image') {
+      steps {
+        sh "docker rmi -f `echo $buildID`"
+      }
+    }
+
 	stage('Deploy Docker Image to EKS') {
       steps {
         withAWS(credentials: 'aws-cred', region: 'us-west-2') {
