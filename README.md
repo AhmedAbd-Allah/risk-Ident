@@ -36,6 +36,8 @@ Further Enhancements :
 
 -  [Linting](#linting)
 
+- [Application Access](#application-access)
+
 ## Introduction
 
 This project target is to design and develop apis to help Retail24 understand and detect fraud. Fraud officers will use this system to fetch transactions and figure out if it is fraudulent or not, depending on many different parameters. If transactions are identified as fraudulent, the fraud officer can take action by stopping the delivery or changing the payment method, among other things.
@@ -43,14 +45,17 @@ This project target is to design and develop apis to help Retail24 understand an
   
 ## CI/CD
 
-Any new Code change passes through several steps to get deployed through the CI/CD:
-- After the code got pushed to github repo, the Jenkins pipeline is fired automatically.
+Any new Code change passes through several steps to get deployed to AWS through the CI/CD:
+- After the code got pushed to github repo, Jenkins pipeline is triggered automatically and     passes through several build stages.
 - Jenkins pipeline generates a UUID for this specific build
-- Then the new code get linted using eslint
+- Then the app get linted using eslint
 - A docker image is built for the new version of application
 - The docker image is then pushed to dockerhub
-- The docker image is then passed to EKS (Amazon Elastic Kubernetes Service)
-- The new docker image is deployed and can be accessed via your browser
+- Locally built Docker image is then deleted to save EC2 instance Space
+- Docker image is then passed to EKS (Amazon Elastic Kubernetes Service)
+- The new docker image is deployed and can be accessed via the browser
+
+To login to Jenkins pipeline and validate the pipeline stages you can used the provided credentials 
 
 ## Technologies
 - The application is built using several technologies:
@@ -92,3 +97,12 @@ To run unit tests, go to project directory and run
 ## Linting
 To Lint the app using eslint, go to project directory and run 
     `npm run lint`
+
+## Application Access
+App is deployed to Heroku and AWS,
+
+- To Access the application on Heroku, kindly follow this link      https://risk-ident.herokuapp.com/api
+ and you can hit the only available endpoint `/transactions` and send your paramaters as query params, so the requested url for example may be like this `/transactions?transactionId=5c868b227167edc396fc3754&confidenceLevel=.4`
+
+- To Access the application on AWS, 
+    Infrastructure is up and running, The pipeline passes succesfully, However I'm still configuring public access to the app and will be provided ASAP.

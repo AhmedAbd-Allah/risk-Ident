@@ -6,13 +6,13 @@ require('deepdash')(_);
 @Controller('transactions')
 export class TransactionsController {
     @Get()
-    getTransactions(@Query() query): any[] {
+    getTransactions(@Query() query){
 
         let transaction = this.getTransactionByID(query.transactionId)
         let transactionsList = this.filterChildrenTransactions(query.confidenceLevel, transaction)
         return transactionsList;
     }
-
+    // deepdash is used to filter transactions by transaction Id
     getTransactionByID(id: string) {
         let transaction;
         _.eachDeep(
@@ -47,12 +47,13 @@ export class TransactionsController {
         _.eachDeep(
             parentTransaction["children"],
             (grandChild, i, child, ctx) => {
-
+                // filtering first level of transactions by confidence level and add combinedConnectionInfo property
+                // filtered transactions are then pushed to array to be used later on
                 if (Array.isArray(child)) {
-
                     child = child.map(element => {
                         if (element.connectionInfo.confidence >= confidenceLevel) {
                             element.combinedConnectionInfo = {
+                                // as the parent of first level of transactions is the main transaction itself so the confidence level remain as it is (1* confidenceLevel = confidenceLevel)
                                 confidence: element.connectionInfo.confidence,
                                 type: [element.connectionInfo.type]
                             }
@@ -60,9 +61,13 @@ export class TransactionsController {
                         }
                     })
                 }
+                // filtering deeper levels of transactions by confidence level
+                // filtered transactions are then pushed to array to be used later on
                 else if (grandChild.connectionInfo && grandChild.connectionInfo.confidence >= confidenceLevel) {
                     grandChild.combinedConnectionInfo = {
+                        // multiplying transaction confidenceLevel by its parent confidenceLevel
                         confidence: Number((Number(grandChild.connectionInfo.confidence) * Number(child.connectionInfo.confidence)).toFixed(2)),
+                        // forming a list of connection info types by pushing transaction connection info type in array alognside all its parent transactions connectionInfo type
                         type: Array.isArray(child.combinedConnectionInfo.type) ? [...child.combinedConnectionInfo.type, grandChild.connectionInfo.type] : [child.combinedConnectionInfo.type, grandChild.connectionInfo.type]
                     }
                     filteredTransactions.push(grandChild)
@@ -73,6 +78,7 @@ export class TransactionsController {
         return filteredTransactions;
     }
 
+    // delete Tranasctions Nested Children to have a flattened structure result
     deleteTranasctionsNestedChildren(filteredTransactions: any) {
         filteredTransactions.forEach(element => {
             delete element.children
@@ -80,12 +86,14 @@ export class TransactionsController {
         return filteredTransactions;
     }
 
+    
     removeTransactionConnectionInfo(transaction: any) {
         delete transaction['connectionInfo']
         return transaction
 
     }
 
+    // check if transaction has children
     checkChildrenExistence(transaction: any) {
         return transaction['children'] && transaction['children'].length > 0 ? true : false
     }
@@ -98,16 +106,5 @@ export class TransactionsController {
         ]
     }
 
-    // removeCombinedConnectionInfoTypesDuplicates(transactionsList: any) {
-    //     transactionsList.forEach(transaction => {
-    //         if (transaction.combinedConnectionInfo)
-    //             transaction.combinedConnectionInfo.type = this.removeDuplicatesFromArrayOfStrings(transaction.combinedConnectionInfo.type)
-    //     })
-    //     return transactionsList
-    // }
-
-    // removeDuplicatesFromArrayOfStrings(combinedConnectionInfoTypes: [string]) {
-    //     return combinedConnectionInfoTypes.filter((value, index) => combinedConnectionInfoTypes.indexOf(value) === index)
-    // }
 
 }
