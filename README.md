@@ -24,7 +24,7 @@ Further Enhancements :
 
 -  [Technologies](#technologies)
 
--  [Qwick Start](#quick-start)
+-  [Quick Start](#quick-start)
 
 -  [Local](#local)
 
@@ -102,7 +102,7 @@ To Lint the app using eslint, go to project directory and run
 App is deployed to Heroku and AWS,
 
 - To Access the application on Heroku, kindly follow this link      https://risk-ident.herokuapp.com/api
- and you can hit the only available endpoint `/transactions` and send your paramaters as query params, so the requested url for example may be like this `/transactions?transactionId=5c868b227167edc396fc3754&confidenceLevel=.4`
+ and you can hit the only available endpoint `/transactions` and send your paramaters as query params
 
 - To Access the application on AWS, 
     Infrastructure is up and running, The pipeline passes succesfully, However I'm still configuring public access to the app and will be provided ASAP.
