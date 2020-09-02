@@ -24,7 +24,7 @@ Further Enhancements :
 
 -  [Technologies](#technologies)
 
--  [Qwick Start](#quick-start)
+-  [Quick Start](#quick-start)
 
 -  [Local](#local)
 
