@@ -22,7 +22,7 @@ pipeline {
 			steps {
 				script {
 						try {
-								sh "sudo npm install"
+								sh "npm install"
 								sh "echo 'App Linting'"
 								sh "npm run lint"
 						} catch (Exception e) {
