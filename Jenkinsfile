@@ -21,10 +21,14 @@ pipeline {
 		stage('Linting') {
 			steps {
 				script {
-						
-								sh "npm install"
-								sh "echo 'App Linting'"
-								sh "npm run lint"
+						try{
+							sh "npm install"
+							sh "echo 'App Linting'"
+							sh "npm run lint"
+						}catch(Exception e){
+
+						}
+							
 							
 						}
 			}
