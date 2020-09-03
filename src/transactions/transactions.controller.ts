@@ -6,7 +6,7 @@ require('deepdash')(_);
 @Controller('transactions')
 export class TransactionsController {
     @Get()
-    getTransactions(@Query() query){
+    getTransactions(@Query() query): any[] {
 
         let transaction = this.getTransactionByID(query.transactionId)
         let transactionsList = this.filterChildrenTransactions(query.confidenceLevel, transaction)
@@ -32,7 +32,7 @@ export class TransactionsController {
         return transaction;
     }
 
-    filterChildrenTransactions(confidenceLevel, parentTransaction) {
+    filterChildrenTransactions(confidenceLevel: Number, parentTransaction: any): any[] {
         parentTransaction = this.removeTransactionConnectionInfo(parentTransaction)
         let filteredTransactions = [parentTransaction]
         if (this.checkChildrenExistence(parentTransaction)) {
@@ -43,7 +43,7 @@ export class TransactionsController {
         return filteredTransactions;
     }
 
-    filterTransactionsByConfidenceLevel(parentTransaction: any, filteredTransactions, confidenceLevel) {
+    filterTransactionsByConfidenceLevel(parentTransaction: any, filteredTransactions: any[], confidenceLevel:Number) {
         _.eachDeep(
             parentTransaction["children"],
             (grandChild, i, child, ctx) => {
@@ -79,14 +79,14 @@ export class TransactionsController {
     }
 
     // delete Tranasctions Nested Children to have a flattened structure result
-    deleteTranasctionsNestedChildren(filteredTransactions: any) {
+    deleteTranasctionsNestedChildren(filteredTransactions: any[]) {
         filteredTransactions.forEach(element => {
             delete element.children
         });
         return filteredTransactions;
     }
 
-    
+
     removeTransactionConnectionInfo(transaction: any) {
         delete transaction['connectionInfo']
         return transaction
@@ -98,7 +98,7 @@ export class TransactionsController {
         return transaction['children'] && transaction['children'].length > 0 ? true : false
     }
 
-    removeDuplicates(arrayOfTransactions: any, key) {
+    removeDuplicates(arrayOfTransactions: any, key: any) {
         return [
             ...new Map(
                 arrayOfTransactions.map(transaction => [key(transaction), transaction])
