@@ -19,11 +19,8 @@ module.exports = {
   },
   rules: {
     '@typescript-eslint/interface-name-prefix': 'off',
-    '@typescript-eslint/explicit-function-return-type': 'on',
+    '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
-    '@typescript-eslint/no-var-requires': 0,
-    "@typescript-eslint/explicit-function-return-type": {
-      "allowExpressions": true
-    }
+    '@typescript-eslint/no-var-requires': 0
   },
 };
