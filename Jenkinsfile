@@ -21,11 +21,12 @@ pipeline {
 		stage('Linting') {
 			steps {
 				script {
-						
-								sh "npm install"
+						try {
+								sh "sudo npm install"
 								sh "echo 'App Linting'"
 								sh "npm run lint"
-							
+						} catch (Exception e) {
+								throw e
 						}
 			}
 		}
