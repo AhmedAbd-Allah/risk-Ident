@@ -22,7 +22,7 @@ pipeline {
 			steps {
 				script {
 						
-								sh "sudo npm install"
+								sh "npm install"
 								sh "echo 'App Linting'"
 								sh "npm run lint"
 							
