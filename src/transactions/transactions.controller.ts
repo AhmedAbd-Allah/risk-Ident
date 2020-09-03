@@ -8,16 +8,16 @@ export class TransactionsController {
     @Get()
     getTransactions(@Query() query): any[] {
 
-        let transaction = this.getTransactionByID(query.transactionId)
-        let transactionsList = this.filterChildrenTransactions(query.confidenceLevel, transaction)
+        const transaction = this.getTransactionByID(query.transactionId)
+        const transactionsList = this.filterChildrenTransactions(query.confidenceLevel, transaction)
         return transactionsList;
     }
     // deepdash is used to filter transactions by transaction Id
-    getTransactionByID(id: string) {
+    getTransactionByID(id: string): any {
         let transaction;
         _.eachDeep(
             testData,
-            (child, i, parent, ctx) => {
+            (child, i, parent) => {
                 if (parent.id == id) {
                     transaction = parent
                     return false;
@@ -32,7 +32,7 @@ export class TransactionsController {
         return transaction;
     }
 
-    filterChildrenTransactions(confidenceLevel: Number, parentTransaction: any): any[] {
+    filterChildrenTransactions(confidenceLevel: number, parentTransaction: any): any[] {
         parentTransaction = this.removeTransactionConnectionInfo(parentTransaction)
         let filteredTransactions = [parentTransaction]
         if (this.checkChildrenExistence(parentTransaction)) {
@@ -43,10 +43,10 @@ export class TransactionsController {
         return filteredTransactions;
     }
 
-    filterTransactionsByConfidenceLevel(parentTransaction: any, filteredTransactions: any[], confidenceLevel:Number) {
+    filterTransactionsByConfidenceLevel(parentTransaction: any, filteredTransactions: any[], confidenceLevel: number): any[] {
         _.eachDeep(
             parentTransaction["children"],
-            (grandChild, i, child, ctx) => {
+            (grandChild, i, child) => {
                 // filtering first level of transactions by confidence level and add combinedConnectionInfo property
                 // filtered transactions are then pushed to array to be used later on
                 if (Array.isArray(child)) {
@@ -79,7 +79,7 @@ export class TransactionsController {
     }
 
     // delete Tranasctions Nested Children to have a flattened structure result
-    deleteTranasctionsNestedChildren(filteredTransactions: any[]) {
+    deleteTranasctionsNestedChildren(filteredTransactions: any[]): any[] {
         filteredTransactions.forEach(element => {
             delete element.children
         });
@@ -87,18 +87,18 @@ export class TransactionsController {
     }
 
 
-    removeTransactionConnectionInfo(transaction: any) {
+    removeTransactionConnectionInfo(transaction: any): any {
         delete transaction['connectionInfo']
         return transaction
 
     }
 
     // check if transaction has children
-    checkChildrenExistence(transaction: any) {
+    checkChildrenExistence(transaction: any): boolean {
         return transaction['children'] && transaction['children'].length > 0 ? true : false
     }
 
-    removeDuplicates(arrayOfTransactions: any, key: any) {
+    removeDuplicates(arrayOfTransactions: any, key: any): any[] {
         return [
             ...new Map(
                 arrayOfTransactions.map(transaction => [key(transaction), transaction])
